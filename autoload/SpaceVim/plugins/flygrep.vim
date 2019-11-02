@@ -95,7 +95,7 @@ function! s:get_search_cmd(expr) abort
   endif
   let cmd += s:grep_expr_opt
   if !empty(s:grep_files) && type(s:grep_files) == 3
-    " grep files is a list, which mean to use flygrep searching in 
+    " grep files is a list, which mean to use flygrep searching in
     " multiple files
     let cmd += [a:expr] + s:grep_files
   elseif !empty(s:grep_files) && type(s:grep_files) == 1
@@ -111,7 +111,7 @@ function! s:get_search_cmd(expr) abort
   else
     " if grep dir is empty, grep files is empty, which means searhing in
     " current directory.
-    let cmd += [a:expr] 
+    let cmd += [a:expr]
     " in window, when using rg, ag, need to add '.' at the end.
     if s:SYS.isWindows && (s:grep_exe ==# 'rg' || s:grep_exe ==# 'ag' || s:grep_exe ==# 'pt' )
       let cmd += ['.']
@@ -157,7 +157,7 @@ function! s:matchadd(group, partten, propty) abort
     catch
       return -1
     endtry
-  catch 
+  catch
     return -1
   endtry
 endfunction
@@ -168,7 +168,7 @@ function! s:flygrep(expr) abort
     redrawstatus
     return
   endif
-  try 
+  try
     call matchdelete(s:hi_id)
   catch
   endtr
@@ -209,7 +209,7 @@ function! s:filter(expr) abort
     redrawstatus
     return
   endif
-  try 
+  try
     call matchdelete(s:hi_id)
   catch
   endtr
@@ -239,7 +239,7 @@ endfunction
 " replace local funcs {{{
 function! s:start_replace() abort
   let s:mode = 'r'
-  try 
+  try
     call matchdelete(s:hi_id)
   catch
   endtr
@@ -685,13 +685,15 @@ let s:MPT._function_key = {
       \ "\<Up>" : function('s:previous_match_history'),
       \ "\<Down>" : function('s:next_match_history'),
       \ "\<PageDown>" : function('s:page_down'),
+      \ "\<C-d>" : function('s:page_down'),
       \ "\<PageUp>" : function('s:page_up'),
+      \ "\<C-u>" : function('s:page_up'),
       \ "\<C-End>" : function('s:page_end'),
       \ "\<C-Home>" : function('s:page_home'),
       \ }
 
 if has('nvim')
-  call extend(s:MPT._function_key, 
+  call extend(s:MPT._function_key,
         \ {
         \ "\x80\xfdJ" : function('s:previous_item'),
         \ "\x80\xfc \x80\xfdJ" : function('s:previous_item'),
@@ -727,7 +729,7 @@ function! SpaceVim#plugins#flygrep#open(agrv) abort
     let s:flygrep_win_id =  s:FLOATING.open_win(s:buffer_id, v:true,
           \ {
           \ 'relative': 'editor',
-          \ 'width'   : &columns, 
+          \ 'width'   : &columns,
           \ 'height'  : flygrep_win_height,
           \ 'row': &lines - flygrep_win_height - 2,
           \ 'col': 0
